@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Sriracha';
+    src: url('fonts/sriracha-regular.woff2') format('woff2'),
+    url('fonts/sriracha-regular.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+}
+
+body {
+    font-family: 'Sriracha', sans-serif;
+}
