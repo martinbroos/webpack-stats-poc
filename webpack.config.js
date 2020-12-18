@@ -6,7 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { StatsWriterPlugin } = require("webpack-stats-plugin")
 
 const sassOptions = {
-    includePaths: [path.resolve(__dirname, "node_modules")]
+    sourceMap: true,
 };
 
 module.exports = {
@@ -15,19 +15,30 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "build"),
+        publicPath: '/build/',
+        filename: '[name].js',
+        chunkFilename: '[name].[id].js',
     },
     module: {
         rules: [
             {
                 test: /\.s?css$/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: sassOptions
-                    },
+                    MiniCssExtractPlugin.loader,
                     "css-loader",
-                    "postcss-loader",
-                    "sass-loader"
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                sourceMap: true,
+                                plugins: ["autoprefixer"]
+                            }
+                        }
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: sassOptions,
+                    }
                 ]
             },
             {
@@ -49,5 +60,5 @@ module.exports = {
         new StatsWriterPlugin({
             fields: ['hash', 'assetsByChunkName', 'assets'],
         })
-    ]
+    ],
 };
